@@ -122,6 +122,113 @@
             display: block;
         }
 
+        .ai-recommendation {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 2px solid #0ea5e9;
+            animation: slideIn 0.6s ease;
+        }
+
+        .ai-recommendation h3 {
+            color: #0c4a6e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+        }
+
+        .recommendation-content {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .recommendation-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0f2fe;
+        }
+
+        .recommendation-row:last-child {
+            border-bottom: none;
+        }
+
+        .rec-label {
+            font-weight: 600;
+            color: #0c4a6e;
+            font-size: 1rem;
+        }
+
+        .rec-value {
+            font-weight: 700;
+            color: #0ea5e9;
+            font-size: 1.2rem;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .analysis-metric {
+            background: #f0f9ff;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0c4a6e;
+        }
+
+        .recommendation-reason {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #0c4a6e;
+            line-height: 1.6;
+            display: flex;
+            align-items: start;
+            gap: 10px;
+        }
+
+        .apply-recommendation {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        .apply-recommendation:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+        }
+
         .quality-control {
             background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
             border-radius: 15px;
@@ -378,6 +485,85 @@
             color: #92400e;
         }
 
+        .tree-visualization {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 2px solid #fbbf24;
+        }
+
+        .tree-visualization h4 {
+            color: #92400e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+        }
+
+        .tree-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tree-btn {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #78350f;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
+        }
+
+        .tree-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.5);
+        }
+
+        .tree-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #treeCanvas {
+            width: 100%;
+            height: 500px;
+            border: 2px solid #fef3c7;
+            border-radius: 10px;
+            background: #fffbeb;
+            cursor: move; /* 'move' is more indicative of panning */
+        }
+
+        .tree-legend {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid #92400e;
+        }
+
         .download-btn {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             width: 100%;
@@ -459,13 +645,30 @@
             .reset-btn {
                 margin-left: 0;
             }
+
+            .analysis-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            #treeCanvas {
+                width: 100%;
+                height: 500px;
+                border: 2px solid #fef3c7;
+                border-radius: 10px;
+                background: #fffbeb;
+                cursor: grab;
+            }
+
+            #treeCanvas:active {
+                cursor: grabbing;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎨 Image Compressor</h1>
-        <p class="subtitle">Compress images using Canvas API and analyze with Huffman coding algorithm</p>
+        <p class="subtitle">AI-powered compression with Huffman coding algorithm visualization</p>
 
         <div class="upload-area" id="uploadArea">
             <div class="upload-icon">📁</div>
@@ -475,6 +678,46 @@
         <input type="file" id="fileInput" accept="image/*">
 
         <div class="compression-section" id="compressionSection">
+            <div class="ai-recommendation" id="aiRecommendation" style="display: none;">
+                <h3>🤖 AI Quality Recommendation</h3>
+                <div class="recommendation-content">
+                    <div class="recommendation-row">
+                        <span class="rec-label">Recommended Quality:</span>
+                        <span class="rec-value" id="recommendedQuality">-</span>
+                    </div>
+                    <div class="recommendation-row">
+                        <span class="rec-label">Image Complexity:</span>
+                        <span class="rec-value" id="imageComplexity">-</span>
+                    </div>
+                    
+                    <div class="analysis-grid">
+                        <div class="analysis-metric">
+                            <div class="metric-label">Edge Density</div>
+                            <div class="metric-value" id="edgeDensity">-</div>
+                        </div>
+                        <div class="analysis-metric">
+                            <div class="metric-label">Color Variance</div>
+                            <div class="metric-value" id="colorVariance">-</div>
+                        </div>
+                        <div class="analysis-metric">
+                            <div class="metric-label">Entropy</div>
+                            <div class="metric-value" id="entropyValue">-</div>
+                        </div>
+                        <div class="analysis-metric">
+                            <div class="metric-label">Content Type</div>
+                            <div class="metric-value" id="contentType">-</div>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-reason">
+                        <span>💡</span>
+                        <span id="recommendationReason">Analyzing image...</span>
+                    </div>
+
+                    <button class="apply-recommendation" id="applyRecommendation">Apply Recommended Quality</button>
+                </div>
+            </div>
+
             <div class="quality-control">
                 <h3>⚙️ Compression Settings</h3>
                 <div class="slider-container">
@@ -514,7 +757,7 @@
                     <h3>✨ Compressed Image</h3>
                     <img id="compressedImage" alt="Compressed" style="display: none;">
                     <div id="compressionPlaceholder" style="padding: 100px 0; color: #999; font-style: italic;">
-                        👆 Adjust quality and click "Compress Image"
+                        👆 Check AI recommendation or adjust quality and compress
                     </div>
                     <div class="image-stats" id="compressedStats" style="display: none;">
                         <div class="stat-row">
@@ -546,7 +789,7 @@
                     Huffman Coding Analysis
                 </h3>
                 <p class="huffman-description">
-                    This section shows theoretical compression using Huffman coding - a lossless algorithm that assigns variable-length codes based on pixel frequency. More frequent pixels get shorter codes, achieving optimal compression.
+                    This section shows theoretical compression using Huffman coding - a lossless algorithm that assigns variable-length codes based on pixel frequency.
                 </p>
                 <div class="huffman-stats">
                     <div class="huffman-stat-box">
@@ -574,11 +817,36 @@
                         <div class="huffman-stat-value" id="processingTime">-</div>
                     </div>
                 </div>
+
+                <div class="tree-visualization">
+                    <h4>🌳 Interactive Tree Visualization</h4>
+                    <div class="tree-controls">
+                        <button class="tree-btn" id="buildTreeBtn">Build Tree Animation</button>
+                        <button class="tree-btn" id="pauseTreeBtn" disabled>Pause</button>
+                        <button class="tree-btn" id="resumeTreeBtn" disabled>Resume</button>
+                        <button class="tree-btn" id="resetTreeBtn">Reset View</button>
+                    </div>
+                    <canvas id="treeCanvas"></canvas>
+                    <div class="tree-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #10b981;"></div>
+                            <span>Leaf Nodes (Pixel Values)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #6366f1;"></div>
+                            <span>Internal Nodes (Combined)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #f59e0b;"></div>
+                            <span>Currently Building</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="footer">
-            <p>Built with vanilla JavaScript • Canvas API • Huffman Coding Algorithm</p>
+            <p>Built with vanilla JavaScript • Canvas API • Huffman Coding • AI Analysis • Tree Visualization</p>
         </div>
     </div>
 
@@ -586,10 +854,12 @@
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
         const compressionSection = document.getElementById('compressionSection');
+        const aiRecommendation = document.getElementById('aiRecommendation');
         const qualitySlider = document.getElementById('qualitySlider');
         const qualityValue = document.getElementById('qualityValue');
         const compressBtn = document.getElementById('compressBtn');
         const resetBtn = document.getElementById('resetBtn');
+        const applyRecommendation = document.getElementById('applyRecommendation');
         const originalImage = document.getElementById('originalImage');
         const compressedImage = document.getElementById('compressedImage');
         const compressionPlaceholder = document.getElementById('compressionPlaceholder');
@@ -598,8 +868,27 @@
         const downloadBtn = document.getElementById('downloadBtn');
         const huffmanSection = document.getElementById('huffmanSection');
 
+        // Tree visualization elements
+        const treeCanvas = document.getElementById('treeCanvas');
+        const ctx = treeCanvas ? treeCanvas.getContext('2d') : null;
+        const buildTreeBtn = document.getElementById('buildTreeBtn');
+        const pauseTreeBtn = document.getElementById('pauseTreeBtn');
+        const resumeTreeBtn = document.getElementById('resumeTreeBtn');
+        const resetTreeBtn = document.getElementById('resetTreeBtn');
+
         let originalFile = null;
         let compressedBlob = null;
+        let recommendedQualityValue = 70;
+        let huffmanTree = null;
+        let buildingSteps = [];
+        let animationPaused = false;
+        let animationStep = 0;
+        let animationInterval = null;
+        let offsetX = 0;
+        let offsetY = 0;
+        let isDragging = false;
+        let lastX = 0;
+        let lastY = 0;
 
         // Huffman Node Class
         class HuffmanNode {
@@ -608,12 +897,35 @@
                 this.frequency = frequency;
                 this.left = null;
                 this.right = null;
+                this.x = 0;
+                this.y = 0;
+                this.code = '';
             }
         }
+
+        // Initialize canvas size
+        function initCanvas() {
+            if (!treeCanvas) return;
+            const rect = treeCanvas.getBoundingClientRect();
+            treeCanvas.width = rect.width;
+            treeCanvas.height = 500; // Fixed height for consistency
+            
+            // Reset offset when resizing
+            offsetX = 0;
+            offsetY = 0;
+        }
+
 
         // Quality slider
         qualitySlider.addEventListener('input', (e) => {
             qualityValue.textContent = e.target.value + '%';
+        });
+
+        // Apply AI recommendation
+        applyRecommendation.addEventListener('click', () => {
+            qualitySlider.value = recommendedQualityValue;
+            qualityValue.textContent = recommendedQualityValue + '%';
+            qualitySlider.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
 
         // Click to upload
@@ -646,10 +958,119 @@
             }
         });
 
+        // Canvas panning
+        if (treeCanvas) {
+            // Mouse Events
+            treeCanvas.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                lastX = e.offsetX;
+                lastY = e.offsetY;
+            });
+
+            treeCanvas.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    const dx = e.offsetX - lastX;
+                    const dy = e.offsetY - lastY;
+                    offsetX += dx;
+                    offsetY += dy;
+                    lastX = e.offsetX;
+                    lastY = e.offsetY;
+                    drawTree();
+                }
+            });
+
+            treeCanvas.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            treeCanvas.addEventListener('mouseleave', () => {
+                isDragging = false;
+            });
+
+            // --- NEW: Touch Events for Mobile Panning ---
+            treeCanvas.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevent page scrolling
+                isDragging = true;
+                const rect = treeCanvas.getBoundingClientRect();
+                lastX = e.touches[0].clientX - rect.left;
+                lastY = e.touches[0].clientY - rect.top;
+            }, { passive: false });
+
+            treeCanvas.addEventListener('touchmove', (e) => {
+                e.preventDefault(); // Prevent page scrolling
+                if (isDragging) {
+                    const rect = treeCanvas.getBoundingClientRect();
+                    const newX = e.touches[0].clientX - rect.left;
+                    const newY = e.touches[0].clientY - rect.top;
+                    const dx = newX - lastX;
+                    const dy = newY - lastY;
+                    offsetX += dx;
+                    offsetY += dy;
+                    lastX = newX;
+                    lastY = newY;
+                    drawTree();
+                }
+            }, { passive: false });
+
+            treeCanvas.addEventListener('touchend', (e) => {
+                isDragging = false;
+            });
+
+            treeCanvas.addEventListener('touchcancel', (e) => {
+                isDragging = false;
+            });
+        }
+
+        // Tree control buttons
+        if (buildTreeBtn) {
+            buildTreeBtn.addEventListener('click', () => {
+                animationStep = 0;
+                animationPaused = false;
+                buildTreeBtn.disabled = true;
+                pauseTreeBtn.disabled = false;
+                resumeTreeBtn.disabled = true;
+                startTreeAnimation();
+            });
+        }
+
+        if (pauseTreeBtn) {
+            pauseTreeBtn.addEventListener('click', () => {
+                animationPaused = true;
+                pauseTreeBtn.disabled = true;
+                resumeTreeBtn.disabled = false;
+            });
+        }
+
+        if (resumeTreeBtn) {
+            resumeTreeBtn.addEventListener('click', () => {
+                animationPaused = false;
+                resumeTreeBtn.disabled = true;
+                pauseTreeBtn.disabled = false;
+                startTreeAnimation();
+            });
+        }
+
+        if (resetTreeBtn) {
+            resetTreeBtn.addEventListener('click', () => {
+                offsetX = 0;
+                offsetY = 0;
+                animationStep = 0;
+                if (animationInterval) {
+                    clearInterval(animationInterval);
+                    animationInterval = null;
+                }
+                buildTreeBtn.disabled = false;
+                pauseTreeBtn.disabled = true;
+                resumeTreeBtn.disabled = true;
+                drawTree();
+            });
+        }
+
         // Reset button
         resetBtn.addEventListener('click', () => {
             fileInput.value = '';
             compressionSection.classList.remove('active');
+            aiRecommendation.style.display = 'none';
             compressedImage.style.display = 'none';
             compressionPlaceholder.style.display = 'block';
             compressedStats.style.display = 'none';
@@ -660,6 +1081,12 @@
             compressedBlob = null;
             qualitySlider.value = 70;
             qualityValue.textContent = '70%';
+            huffmanTree = null;
+            buildingSteps = [];
+            if (animationInterval) {
+                clearInterval(animationInterval);
+                animationInterval = null;
+            }
         });
 
         function handleFile(file) {
@@ -675,7 +1102,6 @@
 
             originalFile = file;
 
-            // Display original image info
             document.getElementById('originalSize').textContent = formatFileSize(file.size);
             document.getElementById('originalType').textContent = file.type;
 
@@ -688,12 +1114,13 @@
                     document.getElementById('originalDimensions').textContent = 
                         `${originalImage.naturalWidth} × ${originalImage.naturalHeight}`;
                     compressionSection.classList.add('active');
+                    
+                    performAIAnalysis();
                 };
             };
 
             reader.readAsDataURL(file);
 
-            // Reset compressed view
             compressedImage.style.display = 'none';
             compressionPlaceholder.style.display = 'block';
             compressedStats.style.display = 'none';
@@ -702,7 +1129,145 @@
             huffmanSection.style.display = 'none';
         }
 
-        // Compress image
+        // AI Analysis Function
+        function performAIAnalysis() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            const maxDim = 400;
+            let width = originalImage.naturalWidth;
+            let height = originalImage.naturalHeight;
+            
+            if (width > maxDim || height > maxDim) {
+                const ratio = Math.min(maxDim / width, maxDim / height);
+                width = Math.floor(width * ratio);
+                height = Math.floor(height * ratio);
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(originalImage, 0, 0, width, height);
+
+            const imageData = ctx.getImageData(0, 0, width, height);
+            const pixels = imageData.data;
+
+            const edgeDensity = calculateEdgeDensity(pixels, width, height);
+            const colorVariance = calculateColorVariance(pixels);
+            const entropy = calculateEntropy(pixels);
+            const contentType = detectContentType(edgeDensity, colorVariance);
+
+            const complexityScore = (edgeDensity * 0.4) + (colorVariance * 0.3) + (entropy * 0.3);
+            let complexity, recommendedQuality, reason;
+
+            if (complexityScore > 70) {
+                complexity = "High";
+                recommendedQuality = 85;
+                reason = "High detail and complexity detected. Image contains fine details, textures, or gradients that benefit from higher quality to maintain visual fidelity.";
+            } else if (complexityScore > 40) {
+                complexity = "Medium";
+                recommendedQuality = 70;
+                reason = "Moderate complexity detected. Balanced compression recommended for good quality-to-size ratio. Suitable for most use cases.";
+            } else {
+                complexity = "Low";
+                recommendedQuality = 55;
+                reason = "Low complexity image with simple patterns or flat colors. Aggressive compression can be applied safely without significant quality loss.";
+            }
+
+            recommendedQualityValue = recommendedQuality;
+
+            document.getElementById('recommendedQuality').textContent = recommendedQuality + '%';
+            document.getElementById('imageComplexity').textContent = complexity;
+            document.getElementById('edgeDensity').textContent = edgeDensity.toFixed(1) + '%';
+            document.getElementById('colorVariance').textContent = colorVariance.toFixed(1) + '%';
+            document.getElementById('entropyValue').textContent = entropy.toFixed(2);
+            document.getElementById('contentType').textContent = contentType;
+            document.getElementById('recommendationReason').textContent = reason;
+
+            aiRecommendation.style.display = 'block';
+        }
+
+        function calculateEdgeDensity(pixels, width, height) {
+            let edgeCount = 0;
+            const threshold = 50;
+
+            for (let y = 1; y < height - 1; y++) {
+                for (let x = 1; x < width - 1; x++) {
+                    const idx = (y * width + x) * 4;
+                    
+                    const center = pixels[idx];
+                    const top = pixels[((y-1) * width + x) * 4];
+                    const bottom = pixels[((y+1) * width + x) * 4];
+                    const left = pixels[(y * width + (x-1)) * 4];
+                    const right = pixels[(y * width + (x+1)) * 4];
+
+                    const gx = Math.abs(-top + bottom - 2*left + 2*right);
+                    const gy = Math.abs(-top - 2*center + bottom);
+                    const gradient = Math.sqrt(gx*gx + gy*gy);
+
+                    if (gradient > threshold) edgeCount++;
+                }
+            }
+
+            return (edgeCount / (width * height)) * 100;
+        }
+
+        function calculateColorVariance(pixels) {
+            let sumR = 0, sumG = 0, sumB = 0;
+            const count = pixels.length / 4;
+
+            for (let i = 0; i < pixels.length; i += 4) {
+                sumR += pixels[i];
+                sumG += pixels[i + 1];
+                sumB += pixels[i + 2];
+            }
+
+            const meanR = sumR / count;
+            const meanG = sumG / count;
+            const meanB = sumB / count;
+
+            let varR = 0, varG = 0, varB = 0;
+            for (let i = 0; i < pixels.length; i += 4) {
+                varR += Math.pow(pixels[i] - meanR, 2);
+                varG += Math.pow(pixels[i + 1] - meanG, 2);
+                varB += Math.pow(pixels[i + 2] - meanB, 2);
+            }
+
+            const variance = (varR + varG + varB) / (count * 3);
+            return Math.min((variance / 6500) * 100, 100);
+        }
+
+        function calculateEntropy(pixels) {
+            const histogram = new Array(256).fill(0);
+            const count = pixels.length / 4;
+
+            for (let i = 0; i < pixels.length; i += 4) {
+                const gray = Math.round(0.299 * pixels[i] + 0.587 * pixels[i + 1] + 0.114 * pixels[i + 2]);
+                histogram[gray]++;
+            }
+
+            let entropy = 0;
+            for (let i = 0; i < 256; i++) {
+                if (histogram[i] > 0) {
+                    const prob = histogram[i] / count;
+                    entropy -= prob * Math.log2(prob);
+                }
+            }
+
+            return entropy;
+        }
+
+        function detectContentType(edgeDensity, colorVariance) {
+            if (edgeDensity > 15 && colorVariance > 50) {
+                return "Photo";
+            } else if (edgeDensity > 20) {
+                return "Detailed";
+            } else if (colorVariance < 30) {
+                return "Graphics";
+            } else {
+                return "Mixed";
+            }
+        }
+
         compressBtn.addEventListener('click', () => {
             if (!originalFile) return;
 
@@ -711,10 +1276,8 @@
 
             const quality = qualitySlider.value / 100;
             
-            // Canvas compression
             compressImage(originalImage.src, quality);
             
-            // Huffman analysis
             setTimeout(() => {
                 performHuffmanAnalysis();
             }, 100);
@@ -767,7 +1330,6 @@
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             
-            // Limit canvas size for performance
             const maxDimension = 800;
             let width = originalImage.naturalWidth;
             let height = originalImage.naturalHeight;
@@ -782,24 +1344,35 @@
             canvas.height = height;
             ctx.drawImage(originalImage, 0, 0, width, height);
 
-            // Get pixel data
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             const pixels = imageData.data;
 
-            // Calculate frequency of each grayscale value
             const frequency = {};
             for (let i = 0; i < pixels.length; i += 4) {
-                // Convert to grayscale
                 const gray = Math.round(0.299 * pixels[i] + 0.587 * pixels[i + 1] + 0.114 * pixels[i + 2]);
                 frequency[gray] = (frequency[gray] || 0) + 1;
             }
 
-            // Build Huffman tree
-            const huffmanCodes = buildHuffmanTree(frequency);
+            // Limit to top 15 most frequent values for visualization
+            const sortedFreq = Object.entries(frequency)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 15);
+            
+            const limitedFrequency = {};
+            sortedFreq.forEach(([key, val]) => {
+                limitedFrequency[key] = val;
+            });
 
-            // Calculate compression stats
+            // Build tree and store building steps
+            const result = buildHuffmanTreeWithSteps(limitedFrequency);
+            huffmanTree = result.root;
+            buildingSteps = result.steps;
+
+            // Use full frequency for accurate stats
+            const huffmanCodes = buildHuffmanCodesOnly(frequency);
+
             const totalPixels = canvas.width * canvas.height;
-            const originalBits = totalPixels * 8; // 8 bits per grayscale pixel
+            const originalBits = totalPixels * 8;
 
             let encodedBits = 0;
             let totalCodeLength = 0;
@@ -813,7 +1386,6 @@
             const avgCodeLength = (totalCodeLength / Object.keys(frequency).length).toFixed(2);
             const processingTime = (performance.now() - startTime).toFixed(2);
 
-            // Display results
             document.getElementById('originalBits').textContent = formatNumber(originalBits);
             document.getElementById('encodedBits').textContent = formatNumber(encodedBits);
             document.getElementById('huffmanRatio').textContent = compressionRatio + '%';
@@ -822,19 +1394,27 @@
             document.getElementById('processingTime').textContent = processingTime + ' ms';
 
             huffmanSection.style.display = 'block';
+            
+            // Initialize canvas and draw initial tree
+            initCanvas();
+            calculateTreePositions(huffmanTree);
+            drawTree();
+            
+            // Enable build button
+            buildTreeBtn.disabled = false;
+            pauseTreeBtn.disabled = true;
+            resumeTreeBtn.disabled = true;
         }
 
-        function buildHuffmanTree(frequency) {
-            // Create priority queue (min heap)
+        function buildHuffmanCodesOnly(frequency) {
             const nodes = [];
+            
             for (const [value, freq] of Object.entries(frequency)) {
                 nodes.push(new HuffmanNode(parseInt(value), freq));
             }
 
-            // Sort by frequency
             nodes.sort((a, b) => a.frequency - b.frequency);
 
-            // Build tree
             while (nodes.length > 1) {
                 const left = nodes.shift();
                 const right = nodes.shift();
@@ -843,7 +1423,6 @@
                 parent.left = left;
                 parent.right = right;
 
-                // Insert parent in sorted position
                 let inserted = false;
                 for (let i = 0; i < nodes.length; i++) {
                     if (parent.frequency < nodes[i].frequency) {
@@ -857,7 +1436,6 @@
                 }
             }
 
-            // Generate codes
             const root = nodes[0];
             const codes = {};
             generateCodes(root, '', codes);
@@ -865,21 +1443,272 @@
             return codes;
         }
 
+        function buildHuffmanTreeWithSteps(frequency) {
+            const nodes = [];
+            const steps = [];
+            
+            for (const [value, freq] of Object.entries(frequency)) {
+                const node = new HuffmanNode(parseInt(value), freq);
+                nodes.push(node);
+                steps.push({ type: 'initial', nodes: [node] });
+            }
+
+            nodes.sort((a, b) => a.frequency - b.frequency);
+
+            while (nodes.length > 1) {
+                const left = nodes.shift();
+                const right = nodes.shift();
+
+                const parent = new HuffmanNode(null, left.frequency + right.frequency);
+                parent.left = left;
+                parent.right = right;
+
+                steps.push({ type: 'combine', left, right, parent });
+
+                let inserted = false;
+                for (let i = 0; i < nodes.length; i++) {
+                    if (parent.frequency < nodes[i].frequency) {
+                        nodes.splice(i, 0, parent);
+                        inserted = true;
+                        break;
+                    }
+                }
+                if (!inserted) {
+                    nodes.push(parent);
+                }
+            }
+
+            const root = nodes[0];
+            generateCodes(root, '', {});
+
+            return { root, steps };
+        }
+
         function generateCodes(node, code, codes) {
             if (node === null) return;
 
-            // Leaf node
             if (node.value !== null) {
                 codes[node.value] = code || '0';
+                node.code = code || '0';
                 return;
             }
 
-            // Traverse left and right
+            node.code = code;
             generateCodes(node.left, code + '0', codes);
             generateCodes(node.right, code + '1', codes);
         }
+        
+        // --- UPDATED/FIXED FUNCTIONS ---
 
-        // Download compressed image
+        /**
+         * Calculates the X and Y positions for all nodes in the tree.
+         * This function sets up the initial parameters for the recursive positioning.
+         */
+        function calculateTreePositions(root) {
+            if (!root || !treeCanvas) return;
+            
+            const depth = getTreeDepth(root);
+            const leafCount = countLeaves(root);
+            
+            // FIX 1: Increased spacing to prevent overlap
+            // Use a larger, fixed vertical spacing for readability
+            const verticalSpacing = 90; 
+            // Use a minimum horizontal spacing per leaf
+            const horizontalSpacing = 65; 
+            
+            // Calculate total width needed for all leaves
+            const treeWidth = leafCount * horizontalSpacing;
+            
+            // Center the tree root
+            const startX = treeCanvas.width / 2;
+            const startY = 70; // Start a bit lower from the top
+            
+            // Start the recursive positioning
+            positionNodes(root, startX, startY, treeWidth, verticalSpacing);
+        }
+
+        /**
+         * Recursively positions each node.
+         * FIX 2: This function now divides horizontal space *proportionally*
+         * based on the number of leaves in each subtree, fixing the clustering
+         * problem for unbalanced trees.
+         */
+        function positionNodes(node, x, y, width, verticalSpacing) {
+            if (!node) return;
+            
+            // Assign calculated position to the node
+            node.x = x;
+            node.y = y;
+            
+            const nextY = y + verticalSpacing;
+            
+            // Check if it's an internal node with two children
+            if (node.left && node.right) {
+                const leftLeaves = countLeaves(node.left);
+                const rightLeaves = countLeaves(node.right);
+                const totalLeaves = leftLeaves + rightLeaves;
+
+                if (totalLeaves > 0) {
+                    // Allocate width proportionally to the number of leaves
+                    const leftWidth = (leftLeaves / totalLeaves) * width;
+                    const rightWidth = (rightLeaves / totalLeaves) * width;
+
+                    // Calculate the new center X for the left child's territory
+                    // Territory: [x - width/2, x - width/2 + leftWidth]
+                    // Center: (x - width/2) + (leftWidth / 2)
+                    const leftX = x - (width / 2) + (leftWidth / 2);
+                    
+                    // Calculate the new center X for the right child's territory
+                    // Territory: [x + width/2 - rightWidth, x + width/2]
+                    // Center: (x + width/2) - (rightWidth / 2)
+                    const rightX = x + (width / 2) - (rightWidth / 2);
+
+                    // Recurse
+                    positionNodes(node.left, leftX, nextY, leftWidth, verticalSpacing);
+                    positionNodes(node.right, rightX, nextY, rightWidth, verticalSpacing);
+                } else {
+                    // Fallback (shouldn't be reached if countLeaves is correct)
+                    const halfWidth = width / 2;
+                    positionNodes(node.left, x - halfWidth / 2, nextY, halfWidth, verticalSpacing);
+                    positionNodes(node.right, x + halfWidth / 2, nextY, halfWidth, verticalSpacing);
+                }
+            } else if (node.left) {
+                // Center the single left child
+                positionNodes(node.left, x, nextY, width, verticalSpacing);
+            } else if (node.right) {
+                // Center the single right child
+                positionNodes(node.right, x, nextY, width, verticalSpacing);
+            }
+        }
+
+        /** Helper function to count leaf nodes */
+        function countLeaves(node) {
+            if (!node) return 0;
+            if (!node.left && !node.right) return 1; // This is a leaf
+            return countLeaves(node.left) + countLeaves(node.right);
+        }
+
+        /** Helper function to get the max depth of the tree */
+        function getTreeDepth(node) {
+            if (!node) return 0;
+            return 1 + Math.max(getTreeDepth(node.left), getTreeDepth(node.right));
+        }
+
+        // --- END OF UPDATED/FIXED FUNCTIONS ---
+
+        // Draw the tree
+        function drawTree(highlightNode = null) {
+            if (!ctx || !huffmanTree) return;
+            
+            ctx.clearRect(0, 0, treeCanvas.width, treeCanvas.height);
+            ctx.save();
+            ctx.translate(offsetX, offsetY); // Apply panning
+            
+            drawNode(huffmanTree, highlightNode);
+            
+            ctx.restore();
+        }
+
+        function drawNode(node, highlightNode) {
+            if (!node) return;
+            
+            // Draw edges first
+            if (node.left) {
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(node.x, node.y);
+                ctx.lineTo(node.left.x, node.left.y);
+                ctx.stroke();
+                
+                // Draw "0" label
+                ctx.fillStyle = '#64748b';
+                ctx.font = '14px sans-serif';
+                ctx.fillText('0', (node.x + node.left.x) / 2 - 15, (node.y + node.left.y) / 2);
+            }
+            
+            if (node.right) {
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(node.x, node.y);
+                ctx.lineTo(node.right.x, node.right.y);
+                ctx.stroke();
+                
+                // Draw "1" label
+                ctx.fillStyle = '#64748b';
+                ctx.font = '14px sans-serif';
+                ctx.fillText('1', (node.x + node.right.x) / 2 + 5, (node.y + node.right.y) / 2);
+            }
+            
+            // Draw node circle
+            const isHighlighted = (highlightNode && node === highlightNode);
+            const radius = isHighlighted ? 30 : 25;
+            
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+            
+            if (isHighlighted) {
+                ctx.fillStyle = '#f59e0b';
+            } else if (node.value !== null) {
+                ctx.fillStyle = '#10b981';
+            } else {
+                ctx.fillStyle = '#6366f1';
+            }
+            
+            ctx.fill();
+            ctx.strokeStyle = isHighlighted ? '#92400e' : '#1e293b';
+            ctx.lineWidth = isHighlighted ? 3 : 2;
+            ctx.stroke();
+            
+            // Draw node text
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 14px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            if (node.value !== null) {
+                ctx.fillText(node.value, node.x, node.y - 5);
+                ctx.font = '10px sans-serif';
+                ctx.fillText(`(${node.frequency})`, node.x, node.y + 8);
+            } else {
+                ctx.fillText(node.frequency, node.x, node.y);
+            }
+            
+            // Recursively draw children
+            if (node.left) drawNode(node.left, highlightNode);
+            if (node.right) drawNode(node.right, highlightNode);
+        }
+
+        // Start tree animation
+        function startTreeAnimation() {
+            if (animationInterval) {
+                clearInterval(animationInterval);
+            }
+            
+            animationInterval = setInterval(() => {
+                if (animationPaused) return;
+                
+                if (animationStep < buildingSteps.length) {
+                    const step = buildingSteps[animationStep];
+                    
+                    if (step.type === 'combine') {
+                        drawTree(step.parent);
+                    }
+                    
+                    animationStep++;
+                } else {
+                    // Animation complete
+                    clearInterval(animationInterval);
+                    animationInterval = null;
+                    buildTreeBtn.disabled = false;
+                    pauseTreeBtn.disabled = true;
+                    resumeTreeBtn.disabled = true;
+                    drawTree();
+                }
+            }, 800);
+        }
+
         downloadBtn.addEventListener('click', () => {
             if (!compressedBlob) return;
 
@@ -902,6 +1731,15 @@
         function formatNumber(num) {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
+
+        // Initialize on load
+        window.addEventListener('resize', () => {
+            initCanvas();
+            if (huffmanTree) {
+                calculateTreePositions(huffmanTree);
+                drawTree();
+            }
+        });
     </script>
 </body>
 </html>
