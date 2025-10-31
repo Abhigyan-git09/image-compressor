@@ -987,7 +987,7 @@
                 isDragging = false;
             });
 
-            // --- NEW: Touch Events for Mobile Panning ---
+            // Touch Events for Mobile Panning
             treeCanvas.addEventListener('touchstart', (e) => {
                 e.preventDefault(); // Prevent page scrolling
                 isDragging = true;
@@ -1129,7 +1129,7 @@
             huffmanSection.style.display = 'none';
         }
 
-        // AI Analysis Function
+        // --- UPDATED AI ANALYSIS FUNCTION ---
         function performAIAnalysis() {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -1156,9 +1156,15 @@
             const entropy = calculateEntropy(pixels);
             const contentType = detectContentType(edgeDensity, colorVariance);
 
-            const complexityScore = (edgeDensity * 0.4) + (colorVariance * 0.3) + (entropy * 0.3);
+            // FIX 1: Normalize entropy from its 0-8 scale to a 0-100 scale
+            const normalizedEntropy = (entropy / 8) * 100; 
+
+            // FIX 2: Use new weights (de-emphasize edges, emphasize variance/entropy)
+            const complexityScore = (edgeDensity * 0.2) + (colorVariance * 0.4) + (normalizedEntropy * 0.4);
+            
             let complexity, recommendedQuality, reason;
 
+            // Use standard thresholds
             if (complexityScore > 70) {
                 complexity = "High";
                 recommendedQuality = 85;
@@ -1188,21 +1194,25 @@
 
         function calculateEdgeDensity(pixels, width, height) {
             let edgeCount = 0;
-            const threshold = 50;
+            // FIX 3: Increased threshold to reduce noise
+            const threshold = 150; 
 
             for (let y = 1; y < height - 1; y++) {
                 for (let x = 1; x < width - 1; x++) {
                     const idx = (y * width + x) * 4;
                     
+                    // Using simple 1D gradients on grayscale
                     const center = pixels[idx];
                     const top = pixels[((y-1) * width + x) * 4];
                     const bottom = pixels[((y+1) * width + x) * 4];
                     const left = pixels[(y * width + (x-1)) * 4];
                     const right = pixels[(y * width + (x+1)) * 4];
 
+                    // This isn't a standard Sobel, but it detects change.
+                    // We'll use the simplified operators that were already here.
                     const gx = Math.abs(-top + bottom - 2*left + 2*right);
                     const gy = Math.abs(-top - 2*center + bottom);
-                    const gradient = Math.sqrt(gx*gx + gy*gy);
+                    const gradient = Math.sqrt(gx*gx + gy*gy); // Magnitude
 
                     if (gradient > threshold) edgeCount++;
                 }
@@ -1210,6 +1220,8 @@
 
             return (edgeCount / (width * height)) * 100;
         }
+        // --- END OF UPDATED AI FUNCTIONS ---
+
 
         function calculateColorVariance(pixels) {
             let sumR = 0, sumG = 0, sumB = 0;
@@ -1231,8 +1243,12 @@
                 varG += Math.pow(pixels[i + 1] - meanG, 2);
                 varB += Math.pow(pixels[i + 2] - meanB, 2);
             }
-
+            
+            // This is the average variance across all 3 channels
             const variance = (varR + varG + varB) / (count * 3);
+            
+            // Scale variance to 0-100 range. 6500 is a magic number for scaling.
+            // A std dev of ~80 (80^2 = 6400) will result in a score of 100.
             return Math.min((variance / 6500) * 100, 100);
         }
 
@@ -1253,7 +1269,7 @@
                 }
             }
 
-            return entropy;
+            return entropy; // Returns 0-8
         }
 
         function detectContentType(edgeDensity, colorVariance) {
@@ -1498,111 +1514,75 @@
             generateCodes(node.right, code + '1', codes);
         }
         
-        // --- UPDATED/FIXED FUNCTIONS ---
+        // --- (Tree Visualization Functions - Unchanged from last time) ---
 
-        /**
-         * Calculates the X and Y positions for all nodes in the tree.
-         * This function sets up the initial parameters for the recursive positioning.
-         */
         function calculateTreePositions(root) {
             if (!root || !treeCanvas) return;
             
             const depth = getTreeDepth(root);
             const leafCount = countLeaves(root);
             
-            // FIX 1: Increased spacing to prevent overlap
-            // Use a larger, fixed vertical spacing for readability
             const verticalSpacing = 90; 
-            // Use a minimum horizontal spacing per leaf
             const horizontalSpacing = 65; 
             
-            // Calculate total width needed for all leaves
             const treeWidth = leafCount * horizontalSpacing;
             
-            // Center the tree root
             const startX = treeCanvas.width / 2;
-            const startY = 70; // Start a bit lower from the top
+            const startY = 70; 
             
-            // Start the recursive positioning
             positionNodes(root, startX, startY, treeWidth, verticalSpacing);
         }
 
-        /**
-         * Recursively positions each node.
-         * FIX 2: This function now divides horizontal space *proportionally*
-         * based on the number of leaves in each subtree, fixing the clustering
-         * problem for unbalanced trees.
-         */
         function positionNodes(node, x, y, width, verticalSpacing) {
             if (!node) return;
             
-            // Assign calculated position to the node
             node.x = x;
             node.y = y;
             
             const nextY = y + verticalSpacing;
             
-            // Check if it's an internal node with two children
             if (node.left && node.right) {
                 const leftLeaves = countLeaves(node.left);
                 const rightLeaves = countLeaves(node.right);
                 const totalLeaves = leftLeaves + rightLeaves;
 
                 if (totalLeaves > 0) {
-                    // Allocate width proportionally to the number of leaves
                     const leftWidth = (leftLeaves / totalLeaves) * width;
                     const rightWidth = (rightLeaves / totalLeaves) * width;
-
-                    // Calculate the new center X for the left child's territory
-                    // Territory: [x - width/2, x - width/2 + leftWidth]
-                    // Center: (x - width/2) + (leftWidth / 2)
                     const leftX = x - (width / 2) + (leftWidth / 2);
-                    
-                    // Calculate the new center X for the right child's territory
-                    // Territory: [x + width/2 - rightWidth, x + width/2]
-                    // Center: (x + width/2) - (rightWidth / 2)
                     const rightX = x + (width / 2) - (rightWidth / 2);
 
-                    // Recurse
                     positionNodes(node.left, leftX, nextY, leftWidth, verticalSpacing);
                     positionNodes(node.right, rightX, nextY, rightWidth, verticalSpacing);
                 } else {
-                    // Fallback (shouldn't be reached if countLeaves is correct)
                     const halfWidth = width / 2;
                     positionNodes(node.left, x - halfWidth / 2, nextY, halfWidth, verticalSpacing);
                     positionNodes(node.right, x + halfWidth / 2, nextY, halfWidth, verticalSpacing);
                 }
             } else if (node.left) {
-                // Center the single left child
                 positionNodes(node.left, x, nextY, width, verticalSpacing);
             } else if (node.right) {
-                // Center the single right child
                 positionNodes(node.right, x, nextY, width, verticalSpacing);
             }
         }
 
-        /** Helper function to count leaf nodes */
         function countLeaves(node) {
             if (!node) return 0;
-            if (!node.left && !node.right) return 1; // This is a leaf
+            if (!node.left && !node.right) return 1; 
             return countLeaves(node.left) + countLeaves(node.right);
         }
 
-        /** Helper function to get the max depth of the tree */
         function getTreeDepth(node) {
             if (!node) return 0;
             return 1 + Math.max(getTreeDepth(node.left), getTreeDepth(node.right));
         }
 
-        // --- END OF UPDATED/FIXED FUNCTIONS ---
-
-        // Draw the tree
         function drawTree(highlightNode = null) {
             if (!ctx || !huffmanTree) return;
             
             ctx.clearRect(0, 0, treeCanvas.width, treeCanvas.height);
             ctx.save();
-            ctx.translate(offsetX, offsetY); // Apply panning
+            ctx.translate(offsetX, offsetY);
             
             drawNode(huffmanTree, highlightNode);
             
@@ -1612,7 +1592,6 @@
         function drawNode(node, highlightNode) {
             if (!node) return;
             
-            // Draw edges first
             if (node.left) {
                 ctx.strokeStyle = '#94a3b8';
                 ctx.lineWidth = 2;
@@ -1621,7 +1600,6 @@
                 ctx.lineTo(node.left.x, node.left.y);
                 ctx.stroke();
                 
-                // Draw "0" label
                 ctx.fillStyle = '#64748b';
                 ctx.font = '14px sans-serif';
                 ctx.fillText('0', (node.x + node.left.x) / 2 - 15, (node.y + node.left.y) / 2);
@@ -1635,13 +1613,11 @@
                 ctx.lineTo(node.right.x, node.right.y);
                 ctx.stroke();
                 
-                // Draw "1" label
                 ctx.fillStyle = '#64748b';
                 ctx.font = '14px sans-serif';
                 ctx.fillText('1', (node.x + node.right.x) / 2 + 5, (node.y + node.right.y) / 2);
             }
             
-            // Draw node circle
             const isHighlighted = (highlightNode && node === highlightNode);
             const radius = isHighlighted ? 30 : 25;
             
@@ -1661,7 +1637,6 @@
             ctx.lineWidth = isHighlighted ? 3 : 2;
             ctx.stroke();
             
-            // Draw node text
             ctx.fillStyle = 'white';
             ctx.font = 'bold 14px sans-serif';
             ctx.textAlign = 'center';
@@ -1675,12 +1650,10 @@
                 ctx.fillText(node.frequency, node.x, node.y);
             }
             
-            // Recursively draw children
             if (node.left) drawNode(node.left, highlightNode);
             if (node.right) drawNode(node.right, highlightNode);
         }
 
-        // Start tree animation
         function startTreeAnimation() {
             if (animationInterval) {
                 clearInterval(animationInterval);
@@ -1698,7 +1671,6 @@
                     
                     animationStep++;
                 } else {
-                    // Animation complete
                     clearInterval(animationInterval);
                     animationInterval = null;
                     buildTreeBtn.disabled = false;
